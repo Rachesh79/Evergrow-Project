@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evergrow Advisors</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="toast" class="toast">
+      It is mandatory to fill one of these fields: domain, exact_match, keyword, nl_match
+    </div>
+    <nav id="navbar">
+      <img src="Logo.png" alt="Evergrow Advisors" />
+      <button class="logout-button" onclick="logout()">Logout</button>
+    </nav>
+    <div class="sidebar" id="sidebar1">
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Search <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <form id="searchForm">
+            <label for="domain-search">Domain Search</label>
+            <input type="text" id="domain-search" name="domain_search" placeholder="google.com, facebook.com" />
+
+            <label for="keyword-search">Keyword Search</label>
+            <input type="text" name="keyword_search" id="keyword-search" placeholder="Marketing, Labour" />
+
+            <label for="exact-search">Exact Search</label>
+            <input type="text" id="exact-search" name="exact_search" placeholder="Kleenstar, ChatGPT" />
+
+            <label for="description-search">Description Search</label>
+            <textarea id="description-search" name="description_search" placeholder="Enter text to search..."></textarea>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Company Location <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <div class="form-group">
+            <label for="countrySel">Country</label>
+            <select id="countrySel">
+              <option value="">Select a country</option>
+              <!-- Add country options here -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="stateSel">State</label>
+            <select id="stateSel">
+              <option value="">Select a state</option>
+              <!-- Add state options here -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="districtSel">District</label>
+            <select id="districtSel">
+              <option value="">Select a district</option>
+              <!-- Add district options here -->
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Company Score <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <div class="filter-section">
+            <label for="min-score">Minimum <i class="info-icon">i</i></label>
+            <input type="range" id="min-score" name="min-score" min="0" max="800" value="0" />
+            <label class="switch">
+              <input type="checkbox" id="filter-by-min-score" />
+              <span class="slider round"></span> Filter By min Score
+            </label>
+          </div>
+          <div class="filter-section">
+            <label for="max-score">Maximum <i class="info-icon">i</i></label>
+            <input type="range" id="max-score" name="max-score" min="0" max="800" value="800" />
+            <label class="switch">
+              <input type="checkbox" id="filter-by-max-score" />
+              <span class="slider round"></span> Filter By max Score
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Company Status <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <div class="filter-section">
+            <label for="status">Status <i class="info-icon">i</i></label>
+            <select id="status" name="status">
+              <option value="">Select Status</option>
+              <option value="active">Active</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Extra Filters <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <div class="filter-section">
+            <label for="start-date">Start Date <i class="info-icon">i</i></label>
+            <input type="date" id="start-date" name="start-date" />
+          </div>
+          <div class="filter-section">
+            <label for="end-date">End Date <i class="info-icon">i</i></label>
+            <input type="date" id="end-date" name="end-date" />
+          </div>
+          <div class="filter-section">
+            <label for="page">Page <i class="info-icon">i</i></label>
+            <input type="text" id="page" name="page" placeholder="about" />
+          </div>
+          <div class="filter-section">
+            <label for="redirect">Redirect <i class="info-icon">i</i></label>
+            <select id="redirect" name="redirect">
+              <option value="">Select Redirect</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="filter-section">
+            <label for="update-date">Update Date <i class="info-icon">i</i></label>
+            <input type="date" id="update-date" name="update-date" />
+          </div>
+          <div class="filter-section">
+            <label for="social">Social <i class="info-icon">i</i></label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="social" value="facebook" /> facebook</label>
+              <label><input type="checkbox" name="social" value="instagram" /> instagram</label>
+              <label><input type="checkbox" name="social" value="linkedin" /> linkedin</label>
+              <label><input type="checkbox" name="social" value="pinterest" /> pinterest</label>
+              <label><input type="checkbox" name="social" value="threads" /> threads</label>
+              <label><input type="checkbox" name="social" value="tiktok" /> tiktok</label>
+              <label><input type="checkbox" name="social" value="twitter" /> twitter</label>
+              <label><input type="checkbox" name="social" value="x" /> x</label>
+              <label><input type="checkbox" name="social" value="yelp" /> yelp</label>
+              <label><input type="checkbox" name="social" value="youtube" /> youtube</label>
+            </div>
+          </div>
+          <div class="filter-section">
+            <label for="category">Category <i class="info-icon">i</i></label>
+            <select id="category" name="category">
+              <option value="">Select</option>
+              <option value="ADVERTISING_AND_MARKETING">ADVERTISING_AND_MARKETING</option>
+              <option value="AGRICULTURE_AND_NATURAL_RESOURCES">AGRICULTURE_AND_NATURAL_RESOURCES</option>
+              <option value="AUTOMOTIVE">AUTOMOTIVE</option>
+              <option value="BUSINESS_PRODUCTS_AND_SERVICES">BUSINESS_PRODUCTS_AND_SERVICES</option>
+              <option value="COMPUTER_HARDWARE_AND_SEMICONDUCTORS">COMPUTER_HARDWARE_AND_SEMICONDUCTORS</option>
+              <option value="CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES">CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES</option>
+              <option value="CONSTRUCTION">CONSTRUCTION</option>
+              <option value="CONSUMER_PRODUCTS">CONSUMER_PRODUCTS</option>
+              <option value="CONSUMER_SERVICES">CONSUMER_SERVICES</option>
+              <option value="DEFENSE_AND_AEROSPACE">DEFENSE_AND_AEROSPACE</option>
+              <option value="EDUCATION">EDUCATION</option>
+              <option value="ENERGY">ENERGY</option>
+              <option value="ENGINEERING">ENGINEERING</option>
+              <option value="ENVIRONMENTAL_SERVICES">ENVIRONMENTAL_SERVICES</option>
+              <option value="FINANCIAL_SERVICES">FINANCIAL_SERVICES</option>
+              <option value="FOOD_AND_BEVERAGE">FOOD_AND_BEVERAGE</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-header">
+          Negative Search <span class="arrow">&#9662;</span>
+        </button>
+        <div class="collapsible-content">
+          <div class="filter-section">
+            <label for="negate-domain">Negate Domain Search <i class="info-icon">i</i></label>
+            <input type="text" id="negate-domain" name="negate-domain" placeholder="google.com,facebook.com" />
+          </div>
+          <div class="filter-section">
+            <label for="negate-description">Negative Description Search <i class="info-icon">i</i></label>
+            <textarea id="negate-description" name="negate-description" placeholder="Enter text to search..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="search-button">Search</button>
+    </div>
+
+    <div id="progress-bar">
+      <div id="progress-bar-inner"></div>
+    </div>
+
+    <div id="results">
+      <!-- <button class="save-button" onclick="saveSearch()">Save Search</button> -->
+      <button class="export-button" onclick="exportResults()">Export +</button>
+      <div id="progress-bar" class="hidden">Loading...</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Score</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Zip</th>
+            <th>Country</th>
+            <th>Phones</th>
+            <th>Redirect Domain</th>
+            <th>Linkup</th>
+            <th>Public Emails</th>
+            <th>Domain Associations</th>
+            <th>Social URLs</th>
+            <th>Description</th>
+            <th>Keywords</th>
+            <th>Industry Groups</th>
+            <th>Update Date</th>
+            <th>Similarity</th>
+          </tr>
+        </thead>
+        <tbody id="results-body">
+          <tr>
+            <td colspan="21">No data found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+  </body>
+</html>
