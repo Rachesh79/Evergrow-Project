@@ -12,7 +12,7 @@
     </div>
     <nav id="navbar">
       <img src="Logo.png" alt="Evergrow Advisors" />
-      <button class="logout-button" onclick="logout()">Logout</button>
+      <button class="logout-button" onclick="logout()" id="logoutButton">Logout</button>
     </nav>
     <div class="sidebar" id="sidebar1">
       <div class="collapsible">
@@ -80,7 +80,7 @@
           </div>
           <div class="filter-section">
             <label for="max-score">Maximum <i class="info-icon">i</i></label>
-            <input type="range" id="max-score" name="max-score" min="0" max="800" value="800" />
+            <input type="range" id="max-score" name="max-score" min="0" max="800" value="0" />
             <label class="switch">
               <input type="checkbox" id="filter-by-max-score" />
               <span class="slider round"></span> Filter By max Score

@@ -157351,19 +157351,25 @@ window.onload = function () {
 
 // Ensure the event listener is added only once
 document.addEventListener("DOMContentLoaded", function () {
+  // Check if user is authenticated
+  if (
+    !sessionStorage.getItem("isAuthenticated") &&
+    window.location.pathname !== "/index.html"
+  ) {
+    window.location.href = "index.html"; // Redirect to login page
+  }
+
   const searchButton = document.querySelector(".search-button");
   const exportButton = document.querySelector(".export-button");
   const logoutButton = document.getElementById("logoutButton");
 
   // Check if searchButton exists before adding event listener
   if (searchButton) {
-    searchButton.removeEventListener("click", search);
     searchButton.addEventListener("click", search);
   }
 
   // Check if exportButton exists before adding event listener
   if (exportButton) {
-    exportButton.removeEventListener("click", exportResults);
     exportButton.addEventListener("click", exportResults);
   }
 
@@ -157396,12 +157402,14 @@ function search() {
   const exactSearch = document.getElementById("exact-search")?.value;
   const descriptionSearch =
     document.getElementById("description-search")?.value;
+
   if (!domainSearch && !keywordSearch && !exactSearch && !descriptionSearch) {
     alert(
       "It is mandatory to fill one of these fields: domain, exact_match, keyword, nl_match"
     );
     return;
   }
+
   const country = document.getElementById("countrySel")?.value;
   const maxRecords = document.getElementById("max-records")?.value;
   const minSimilarity = document.getElementById("min-similarity")?.value;
@@ -157425,8 +157433,17 @@ function search() {
     'input[name="filter-min-similarity"]:checked'
   );
 
+  const minScore = document.querySelector("#min-score")?.value;
+  const maxScore = document.querySelector("#max-score")?.value;
+  const filterByMinScore = document.querySelector(
+    "#filter-by-min-score"
+  )?.checked;
+  const filterByMaxScore = document.querySelector(
+    "#filter-by-max-score"
+  )?.checked;
+
   // Create query string based on parameters
-  let queryString = "http://localhost:3000/search?";
+  let queryString = "http://localhost:3001/search?";
   if (domainSearch) {
     const domains = domainSearch.split(",");
     domains.forEach((domain) => {
@@ -157449,6 +157466,10 @@ function search() {
   if (status) queryString += `status=${status}&`;
   if (social.length > 0) queryString += `social=${social}&`;
   if (category) queryString += `category=${category}&`;
+
+  // Add new minScore and maxScore parameters if enabled
+  if (filterByMinScore && minScore) queryString += `min_score=${minScore}&`;
+  if (filterByMaxScore && maxScore) queryString += `max_score=${maxScore}&`;
 
   // Remove last '&'
   queryString = queryString.slice(0, -1);
@@ -157606,5 +157627,6 @@ function exportResults() {
 }
 
 function logout() {
+  sessionStorage.removeItem("isAuthenticated"); // Remove authentication status
   window.location.href = "index.html"; // Redirect to login page
 }

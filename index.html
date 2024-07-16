@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Form</title>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
@@ -113,64 +113,68 @@
         }
       }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="wrapper">
-        <form id="loginForm">
-            <div class="imgLogo">
-                <img src="Logo.png" alt="Evergrow Advisors" />
-            </div>
-            <div class="heading">
-                Evergrow Advisor's Prospect Builder
-            </div>
-            <div class="input-box">
-                <input type="text" id="username" placeholder="Username" required />
-                <i class="bx bxs-user"></i>
-            </div>
-            <div class="input-box">
-                <input type="password" id="password" placeholder="Password" required />
-                <i class="bx bxs-lock-alt"></i>
-            </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
+      <form id="loginForm">
+        <div class="imgLogo">
+          <img src="Logo.png" alt="Evergrow Advisors" />
+        </div>
+        <div class="heading">Evergrow Advisor's Prospect Builder</div>
+        <div class="input-box">
+          <input type="text" id="username" placeholder="Username" required />
+          <i class="bx bxs-user"></i>
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
     </div>
     <div class="spinner" id="spinner"></div>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const spinner = document.getElementById('spinner');
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const spinner = document.getElementById("spinner");
 
-            console.log('Attempting login with:', username, password); // Debugging
+          console.log("Attempting login with:", username, password); // Debugging
 
-            try {
-                spinner.style.display = 'block'; // Show the spinner
+          try {
+            spinner.style.display = "block"; // Show the spinner
 
-                const response = await fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
-                });
+            const response = await fetch("http://lookalike.evergrowadvisors.com/api/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+            });
 
-                const data = await response.json();
-                console.log('Server response:', data); // Debugging
-
-                if (data.success) {
-                    window.location.href = 'home_page.html'; // Redirect to the home page
-                } else {
-                    alert('Invalid credentials');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            } finally {
-                spinner.style.display = 'none'; // Hide the spinner
+            const data = await response.json();
+            if (data.success) {
+              sessionStorage.setItem("isAuthenticated", "true"); // Set authentication status
+              window.location.href = "home_page.html"; // Redirect to the home page
+            } else {
+              alert("Invalid credentials");
             }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+          } finally {
+            spinner.style.display = "none"; // Hide the spinner
+          }
         });
     </script>
-</body>
+  </body>
 </html>
