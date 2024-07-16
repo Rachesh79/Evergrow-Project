@@ -24,6 +24,11 @@ const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 // Discover API key
 const DISCOVER_API_KEY = process.env.DISCOVER_API_KEY;
 
+// console.log("AIRTABLE_API_KEY:", AIRTABLE_API_KEY);
+// console.log("BASE_ID:", BASE_ID);
+// console.log("TABLE_NAME:", TABLE_NAME);
+// console.log("DISCOVER_API_KEY:", DISCOVER_API_KEY);
+
 // Login Route
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -55,7 +60,7 @@ app.get("/search", async (req, res) => {
     const response = await axios.get("https://api.discolike.com/v1/discover", {
       params: req.query,
       headers: {
-        "x-discover-key": DISCOVER_API_KEY,
+        "x-discolike-key": DISCOVER_API_KEY,
       },
     });
     res.json(response.data);

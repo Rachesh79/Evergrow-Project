@@ -157309,11 +157309,7 @@ var stateObject = {
   },
 };
 
-
-
 // Export results to Excel
-
-
 
 window.onload = function () {
   var countrySel = document.getElementById("countrySel"),
@@ -157426,7 +157422,7 @@ function search() {
   );
 
   // Create query string based on parameters
-  let queryString = "http://localhost:3000/search?";
+  let queryString = "/search?";
   if (domainSearch) {
     const domains = domainSearch.split(",");
     domains.forEach((domain) => {
