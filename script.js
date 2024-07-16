@@ -157437,12 +157437,13 @@ function search() {
 
   // Create query string based on parameters
   let queryString = "/search?";
-  if (domainSearch) {
-    const domains = domainSearch.split(",");
-    domains.forEach((domain) => {
-      queryString += `domain=${domain.trim()}&`;
-    });
-  }
+  // if (domainSearch) {
+  //   const domains = domainSearch.split(",");
+  //   domains.forEach((domain) => {
+  //     queryString += `domain=${encodeURIComponent(domain.trim())},`;
+  //   });
+  // }
+  if (domainSearch) queryString += `keyword=${domainSearch}&`;
   if (keywordSearch) queryString += `keyword=${keywordSearch}&`;
   if (exactSearch) queryString += `exact_match=${exactSearch}&`;
   if (descriptionSearch) queryString += `nl_match=${descriptionSearch}&`;

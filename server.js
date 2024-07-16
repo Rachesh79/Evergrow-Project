@@ -30,7 +30,7 @@ const DISCOVER_API_KEY = process.env.DISCOVER_API_KEY;
 // console.log("DISCOVER_API_KEY:", DISCOVER_API_KEY);
 
 // Login Route
-app.post("/api/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -66,7 +66,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 // Search Route
-app.get("/api/search", async (req, res) => {
+app.get("/search", async (req, res) => {
   console.log("Search request received with query parameters:", req.query);
   console.log("Headers:", { "x-discolike-key": DISCOVER_API_KEY });
 
