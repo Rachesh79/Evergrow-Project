@@ -157309,11 +157309,7 @@ var stateObject = {
   },
 };
 
-
-
 // Export results to Excel
-
-
 
 window.onload = function () {
   var countrySel = document.getElementById("countrySel"),
@@ -157352,10 +157348,7 @@ window.onload = function () {
 // Ensure the event listener is added only once
 document.addEventListener("DOMContentLoaded", function () {
   // Check if user is authenticated
-  if (
-    !sessionStorage.getItem("isAuthenticated") &&
-    window.location.pathname !== "/index.html"
-  ) {
+  if (!sessionStorage.getItem("isAuthenticated") && window.location.pathname !== "/index.html") {
     window.location.href = "index.html"; // Redirect to login page
   }
 
@@ -157443,7 +157436,7 @@ function search() {
   )?.checked;
 
   // Create query string based on parameters
-  let queryString = "http://localhost:3001/search?";
+  let queryString = "/search?";
   if (domainSearch) {
     const domains = domainSearch.split(",");
     domains.forEach((domain) => {
