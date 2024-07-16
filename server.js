@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json()); // to parse JSON bodies
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, ".")));
 
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const BASE_ID = process.env.BASE_ID;
@@ -75,12 +75,12 @@ app.get("/search", async (req, res) => {
 
 // Serve the login page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, ".", "index.html"));
 });
 
 // Serve the home page
 app.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home_page.html"));
+  res.sendFile(path.join(__dirname, ".", "home_page.html"));
 });
 
 app.listen(port, () => {
