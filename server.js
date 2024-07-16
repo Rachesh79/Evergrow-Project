@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json()); // to parse JSON bodies
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, ".")));
 
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const BASE_ID = process.env.BASE_ID;
@@ -23,6 +23,11 @@ const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 
 // Discover API key
 const DISCOVER_API_KEY = process.env.DISCOVER_API_KEY;
+
+// console.log("AIRTABLE_API_KEY:", AIRTABLE_API_KEY);
+// console.log("BASE_ID:", BASE_ID);
+// console.log("TABLE_NAME:", TABLE_NAME);
+// console.log("DISCOVER_API_KEY:", DISCOVER_API_KEY);
 
 // Login Route
 app.post("/login", async (req, res) => {
@@ -55,7 +60,7 @@ app.get("/search", async (req, res) => {
     const response = await axios.get("https://api.discolike.com/v1/discover", {
       params: req.query,
       headers: {
-        "x-discover-key": DISCOVER_API_KEY,
+        "x-discolike-key": DISCOVER_API_KEY,
       },
     });
     res.json(response.data);
@@ -75,12 +80,12 @@ app.get("/search", async (req, res) => {
 
 // Serve the login page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, ".", "index.html"));
 });
 
 // Serve the home page
 app.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home_page.html"));
+  res.sendFile(path.join(__dirname, ".", "home_page.html"));
 });
 
 app.listen(port, () => {
