@@ -3,11 +3,12 @@ const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config({
-  path: path.join(__dirname, "envfile"),
+  path: path.join(__dirname, ".env"),
 });
 
 const app = express();
 const port = process.env.PORT || 5000;
+// const port = 3000;
 
 // Middleware
 app.use(cors());
