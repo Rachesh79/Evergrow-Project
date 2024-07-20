@@ -157124,9 +157124,9 @@ var stateObject = {
 
     "Lusaka Province": ["Chongwe", "Kafue", "Luangwa", "Lusaka"],
 
-    "Muchinga Province": ["Chama", "Chinsali", "Isoka", "Mpika", "Nakonde"],
+    "MuchingaProvince": ["Chama", "Chinsali", "Isoka", "Mpika", "Nakonde"],
 
-    "Northern Province": [
+    "NorthernProvince": [
       "Kaputa",
       "Kasama",
       "Luwingu",
@@ -157436,14 +157436,14 @@ function search() {
   )?.checked;
 
   // Create query string based on parameters
-  let queryString = "/search?";
+  let queryString = "http://localhost:3000/search?";
   // if (domainSearch) {
   //   const domains = domainSearch.split(",");
   //   domains.forEach((domain) => {
   //     queryString += `domain=${encodeURIComponent(domain.trim())},`;
   //   });
   // }
-  if (domainSearch) queryString += `keyword=${domainSearch}&`;
+  if (domainSearch) queryString += `domain=${domainSearch}&`;
   if (keywordSearch) queryString += `keyword=${keywordSearch}&`;
   if (exactSearch) queryString += `exact_match=${exactSearch}&`;
   if (descriptionSearch) queryString += `nl_match=${descriptionSearch}&`;
