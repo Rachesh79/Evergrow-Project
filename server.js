@@ -2,10 +2,12 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config();
+// require("dotenv").config({
+//   path: path.join(__dirname, "envfile"),
+// });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -106,6 +108,6 @@ app.get("/home", (req, res) => {
   res.sendFile(path.join(__dirname, ".", "home_page.html"));
 });
 
-app.listen(port, () => {
+app.listen(5000, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
