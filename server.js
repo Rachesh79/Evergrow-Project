@@ -3,7 +3,7 @@ const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config({
-  path: path.join(__dirname, ".env"),
+  path: path.join(__dirname, "envfile"),
 });
 
 const app = express();
