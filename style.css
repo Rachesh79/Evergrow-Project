@@ -417,3 +417,40 @@ input:checked+.slider:before {
         opacity: 0;
     }
 }
+
+/* Domain List and Management Styles */
+.domain-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.domain-item {
+    display: flex;
+    align-items: center;
+    background-color: #66bb6a;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.domain-item span {
+    margin-right: 10px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#addBtn{
+    width: 5rem;
+    height: 2.2rem;
+}
+
+.add-domain {
+    display: flex;
+}

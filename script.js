@@ -157358,7 +157358,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Check if searchButton exists before adding event listener
   if (searchButton) {
-    searchButton.addEventListener("click", search);
+    searchButton.addEventListener("click", searchButton);
   }
 
   // Check if exportButton exists before adding event listener
@@ -157388,232 +157388,201 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function search() {
-  // Collect search parameters
-  const domainSearch = document.getElementById("domain-search")?.value;
-  const keywordSearch = document.getElementById("keyword-search")?.value;
-  const exactSearch = document.getElementById("exact-search")?.value;
-  const descriptionSearch =
-    document.getElementById("description-search")?.value;
 
-  if (!domainSearch && !keywordSearch && !exactSearch && !descriptionSearch) {
-    alert(
-      "It is mandatory to fill one of these fields: domain, exact_match, keyword, nl_match"
-    );
-    return;
-  }
-
-  const country = document.getElementById("countrySel")?.value;
-  const maxRecords = document.getElementById("max-records")?.value;
-  const minSimilarity = document.getElementById("min-similarity")?.value;
-  const startDate = document.getElementById("start-date")?.value;
-  const endDate = document.getElementById("end-date")?.value;
-  const page = document.getElementById("page")?.value;
-  const redirect = document.getElementById("redirect")?.value;
-  const updateDate = document.getElementById("update-date")?.value;
-  const status = document.getElementById("status")?.value;
-  const socialCheckboxes = document.querySelectorAll(
-    "input[name='social']:checked"
-  );
-  const category = document.getElementById("category")?.value;
-  const social = Array.from(socialCheckboxes)
-    .map((checkbox) => checkbox.value)
-    .join(",");
-  const filterMaxRecords = document.querySelector(
-    'input[name="filter-max-records"]:checked'
-  );
-  const filterMinSimilarity = document.querySelector(
-    'input[name="filter-min-similarity"]:checked'
-  );
-
-  const minScore = document.querySelector("#min-score")?.value;
-  const maxScore = document.querySelector("#max-score")?.value;
-  const filterByMinScore = document.querySelector(
-    "#filter-by-min-score"
-  )?.checked;
-  const filterByMaxScore = document.querySelector(
-    "#filter-by-max-score"
-  )?.checked;
-
-  // Create query string based on parameters
-  let queryString = "/search?";
-   if (domainSearch) {
-     const domains = domainSearch.split(",").map((domain) => domain.trim());
-     domains.forEach((domain) => {
-       queryString += `domain=${encodeURIComponent(domain)}/`;
-     });
-   }
-
-  // if (domainSearch) queryString += `domain=${domainSearch}&`;
-  if (keywordSearch) queryString += `keyword=${keywordSearch}&`;
-  if (exactSearch) queryString += `exact_match=${exactSearch}&`;
-  if (descriptionSearch) queryString += `nl_match=${descriptionSearch}&`;
-  if (country) queryString += `country=${country}&`;
-  if (filterMaxRecords && maxRecords)
-    queryString += `max_records=${maxRecords}&`;
-  if (filterMinSimilarity && minSimilarity)
-    queryString += `min_similarity=${minSimilarity}&`;
-  if (startDate) queryString += `start_date=${startDate}&`;
-  if (endDate) queryString += `end_date=${endDate}&`;
-  if (page) queryString += `page=${page}&`;
-  if (redirect) queryString += `redirect=${redirect}&`;
-  if (updateDate) queryString += `update_date=${updateDate}&`;
-  if (status) queryString += `status=${status}&`;
-  if (social.length > 0) queryString += `social=${social}&`;
-  if (category) queryString += `category=${category}&`;
-
-  // Add new minScore and maxScore parameters if enabled
-  if (filterByMinScore && minScore) queryString += `min_score=${minScore}&`;
-  if (filterByMaxScore && maxScore) queryString += `max_score=${maxScore}&`;
-
-  // Remove last '&'
-  queryString = queryString.slice(0, -1);
-
-  // Console log the query string
-  console.log("API Query: ", queryString);
-
+document.addEventListener("DOMContentLoaded", function () {
   const searchButton = document.querySelector(".search-button");
-  searchButton.textContent = "Loading...";
-  const progressBar = document.getElementById("progress-bar");
-  progressBar.style.display = "block";
-  const progressBarInner = document.getElementById("progress-bar-inner");
-  progressBarInner.style.width = "0";
+  const exportButton = document.querySelector(".export-button");
+  const logoutButton = document.getElementById("logoutButton");
 
-  // Simulate progress bar update
-  let progress = 0;
-  const progressInterval = setInterval(() => {
-    if (progress < 100) {
-      progress += 10;
-      progressBarInner.style.width = progress + "%";
-    } else {
-      clearInterval(progressInterval);
+  if (searchButton) searchButton.addEventListener("click", search);
+  if (exportButton) exportButton.addEventListener("click", exportResults);
+  if (logoutButton) logoutButton.addEventListener("click", logout);
+
+  const domainList = document.getElementById("domainList");
+  let domains = [];
+
+  function addDomain() {
+    const newDomain = document.getElementById("newDomain").value.trim();
+    if (newDomain && !domains.includes(newDomain)) {
+      domains.push(newDomain);
+      renderDomains();
     }
-  }, 100);
-
-  // Retry fetch with exponential backoff
-  function fetchWithRetry(url, retries = 5, backoff = 300) {
-    return fetch(url)
-      .then((response) => {
-        if (response.status === 429 && retries > 0) {
-          console.warn(`Rate limit exceeded. Retrying in ${backoff}ms...`);
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              fetchWithRetry(url, retries - 1, backoff * 2).then(
-                resolve,
-                reject
-              );
-            }, backoff);
-          });
-        }
-        if (!response.ok) {
-          throw new Error("Unexpected response format");
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.error("Error in fetchWithRetry: ", error);
-        throw error;
-      });
+    document.getElementById("newDomain").value = "";
   }
 
-  // Usage within the search function
-  fetchWithRetry(queryString)
-    .then((data) => {
-      // Display results in the table
-      const resultsBody = document.getElementById("results-body");
-      resultsBody.innerHTML = "";
+  function removeDomain(domain) {
+    domains = domains.filter((d) => d !== domain);
+    renderDomains();
+  }
 
-      if (data.detail) {
-        const errorRow = document.createElement("tr");
-        const errorCell = document.createElement("td");
-        errorCell.setAttribute("colspan", "21");
-        errorCell.textContent = data.detail;
-        errorRow.appendChild(errorCell);
-        resultsBody.appendChild(errorRow);
-      } else if (Array.isArray(data) && data.length === 0) {
-        const noDataRow = document.createElement("tr");
-        const noDataCell = document.createElement("td");
-        noDataCell.setAttribute("colspan", "21");
-        noDataCell.textContent = "No data found";
-        noDataRow.appendChild(noDataCell);
-        resultsBody.appendChild(noDataRow);
-      } else if (Array.isArray(data)) {
-        data.forEach((result) => {
-          const row = document.createElement("tr");
-
-          // Format address, publicEmails, socialURLs, keywords, and industry groups
-          const formattedAddress = result.address
-            ? Object.values(result.address)
-                .filter((value) => value)
-                .join(", ")
-            : "";
-          const formattedPublicEmails = result.public_emails
-            ? result.public_emails.join(", ")
-            : "";
-          const formattedSocialURLs = result.social_urls
-            ? result.social_urls.join(", ")
-            : "";
-          const formattedKeywords = result.keywords
-            ? Object.keys(result.keywords).join(", ")
-            : "";
-          const formattedIndustryGroups = result.industry_groups
-            ? Object.keys(result.industry_groups).join(", ")
-            : "";
-
-          row.innerHTML = `
-            <td>${result.domain || ""}</td>
-            <td>${result.name || ""}</td>
-            <td>${
-              result.status
-                ? `${result.status.status} (${result.status.confidence})`
-                : ""
-            }</td>
-            <td>${result.score || ""}</td>
-            <td>${result.start_date || ""}</td>
-            <td>${result.end_date || ""}</td>
-            <td>${formattedAddress || ""}</td>
-            <td>${result.address?.city || ""}</td>
-            <td>${result.address?.zip || ""}</td>
-            <td>${result.address?.country || ""}</td>
-            <td>${result.phones.join(", ") || ""}</td>
-            <td>${result.redirect_domain || ""}</td>
-            <td>${result.linkup.join(", ") || ""}</td>
-            <td>${formattedPublicEmails || ""}</td>
-            <td>${result.domain_associations.join(", ") || ""}</td>
-            <td>${formattedSocialURLs || ""}</td>
-            <td>${result.description || ""}</td>
-            <td>${formattedKeywords || ""}</td>
-            <td>${formattedIndustryGroups || ""}</td>
-            <td>${result.update_date || ""}</td>
-            <td>${result.similarity || ""}</td>
-          `;
-          resultsBody.appendChild(row);
-        });
-      } else {
-        const errorRow = document.createElement("tr");
-        const errorCell = document.createElement("td");
-        errorCell.setAttribute("colspan", "21");
-        errorCell.textContent = "Unexpected response format";
-        errorRow.appendChild(errorCell);
-        resultsBody.appendChild(errorRow);
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      const resultsBody = document.getElementById("results-body");
-      resultsBody.innerHTML = "";
-      const errorRow = document.createElement("tr");
-      const errorCell = document.createElement("td");
-      errorCell.setAttribute("colspan", "21");
-      errorCell.textContent = "Error fetching data";
-      errorRow.appendChild(errorCell);
-      resultsBody.appendChild(errorRow);
-    })
-    .finally(() => {
-      searchButton.textContent = "Search";
-      progressBar.style.display = "none";
+  function renderDomains() {
+    domainList.innerHTML = "";
+    domains.forEach((domain) => {
+      const domainItem = document.createElement("div");
+      domainItem.className = "domain-item";
+      domainItem.innerHTML = `
+        <span>${domain}</span>
+        <button class="remove-btn" onclick="removeDomain('${domain}')">x</button>
+      `;
+      domainList.appendChild(domainItem);
     });
-}
+  }
+
+  async function search() {
+    const negateDomain = document
+      .getElementById("negate-domain")
+      .value.trim()
+      .toLowerCase();
+    if (domains.length === 0) {
+      alert("Please add at least one domain.");
+      return;
+    }
+
+    const resultsBody = document.getElementById("results-body");
+    resultsBody.innerHTML = "<tr><td colspan='21'>Loading...</td></tr>";
+    let allResults = [];
+
+    for (const domain of domains) {
+      const domainLowerCase = domain.toLowerCase();
+
+      // Skip the domain if it matches the negated domain
+      if (domainLowerCase === negateDomain) {
+        console.log(`Skipping negated domain: ${domain}`);
+        continue;
+      }
+
+      let queryString = `/search?domain=${encodeURIComponent(
+        domain
+      )}`;
+
+      const keywordSearch = document.getElementById("keyword-search")?.value;
+      const exactSearch = document.getElementById("exact-search")?.value;
+      const descriptionSearch =
+        document.getElementById("description-search")?.value;
+      const country = document.getElementById("countrySel")?.value;
+      const status = document.getElementById("status")?.value;
+      const category = document.getElementById("category")?.value;
+
+      if (keywordSearch) queryString += `&keyword=${keywordSearch}`;
+      if (exactSearch) queryString += `&exact_match=${exactSearch}`;
+      if (descriptionSearch) queryString += `&nl_match=${descriptionSearch}`;
+      if (country) queryString += `&country=${country}`;
+      if (status) queryString += `&status=${status}`;
+      if (category) queryString += `&category=${category}`;
+
+      console.log(`Querying for domain: ${domain}`);
+      console.log(`Query String: ${queryString}`);
+
+      // Fetch the data for the current domain
+      try {
+        const response = await fetch(queryString);
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          allResults.push(...data);
+        } else {
+          console.warn(`Received non-array data for domain: ${domain}`, data);
+        }
+      } catch (error) {
+        console.error(`Error fetching data for domain: ${domain}`, error);
+      }
+    }
+
+    renderResults(allResults);
+  }
+
+  function renderResults(results) {
+    const resultsBody = document.getElementById("results-body");
+    resultsBody.innerHTML = "";
+
+    if (results.length === 0) {
+      const noDataRow = document.createElement("tr");
+      const noDataCell = document.createElement("td");
+      noDataCell.setAttribute("colspan", "21");
+      noDataCell.textContent = "No data found";
+      noDataRow.appendChild(noDataCell);
+      resultsBody.appendChild(noDataRow);
+    } else {
+      results.forEach((result) => {
+        const row = document.createElement("tr");
+
+        const formattedKeywords = Array.isArray(result.keywords)
+          ? result.keywords.join(", ")
+          : "";
+        const formattedIndustryGroups = Array.isArray(result.industry_groups)
+          ? result.industry_groups.join(", ")
+          : typeof result.industry_groups === "object"
+          ? Object.keys(result.industry_groups).join(", ")
+          : "";
+
+        let formattedStatus = "";
+        if (typeof result.status === "object" && result.status !== null) {
+          formattedStatus = `${result.status.status || ""} (${
+            result.status.confidence || ""
+          })`;
+        } else {
+          formattedStatus = result.status || "";
+        }
+
+        const address = result.address?.formatted || "";
+        const city = result.address?.city || result.city || "";
+        const zip = result.address?.zip || result.zip || "";
+        const country = result.address?.country || result.country || "";
+
+        const phones = Array.isArray(result.phones)
+          ? result.phones.join(", ")
+          : "";
+        const redirectDomain = result.redirect_domain || "";
+        const linkup = Array.isArray(result.linkup)
+          ? result.linkup.join(", ")
+          : "";
+        const publicEmails = Array.isArray(result.public_emails)
+          ? result.public_emails.join(", ")
+          : "";
+        const domainAssociations = Array.isArray(result.domain_associations)
+          ? result.domain_associations.join(", ")
+          : "";
+        const socialUrls = Array.isArray(result.social_urls)
+          ? result.social_urls.join(", ")
+          : "";
+        const description = result.description || "";
+        const updateDate = result.update_date || "";
+        const similarity = result.similarity || "";
+
+        row.innerHTML = `
+          <td>${result.domain || ""}</td>
+          <td>${result.name || ""}</td>
+          <td>${formattedStatus}</td>
+          <td>${result.score || ""}</td>
+          <td>${result.start_date || ""}</td>
+          <td>${result.end_date || ""}</td>
+          <td>${address}</td>
+          <td>${city}</td>
+          <td>${zip}</td>
+          <td>${country}</td>
+          <td>${phones}</td>
+          <td>${redirectDomain}</td>
+          <td>${linkup}</td>
+          <td>${publicEmails}</td>
+          <td>${domainAssociations}</td>
+          <td>${socialUrls}</td>
+          <td>${description}</td>
+          <td>${formattedKeywords}</td>
+          <td>${formattedIndustryGroups}</td>
+          <td>${updateDate}</td>
+          <td>${similarity}</td>
+        `;
+        resultsBody.appendChild(row);
+      });
+    }
+  }
+
+  window.addDomain = addDomain;
+  window.removeDomain = removeDomain;
+  window.search = search;
+  window.exportResults = exportResults;
+  window.logout = logout;
+});
 
 function exportResults() {
   const table = document.querySelector(".results-table");
@@ -157622,6 +157591,7 @@ function exportResults() {
 }
 
 function logout() {
-  sessionStorage.removeItem("isAuthenticated"); // Remove authentication status
-  window.location.href = "index.html"; // Redirect to login page
+  sessionStorage.removeItem("isAuthenticated");
+  window.location.href = "index.html";
 }
+

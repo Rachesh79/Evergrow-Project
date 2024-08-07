@@ -2,10 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config({
-  path: path.join(__dirname, "envfile"),
-});
-
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const app = express();
 const port = process.env.PORT || 5000;
 // const port = 3000;
@@ -27,10 +24,10 @@ const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
 // Discover API key
 const DISCOVER_API_KEY = process.env.DISCOVER_API_KEY;
 
-// console.log("AIRTABLE_API_KEY:", AIRTABLE_API_KEY);
-// console.log("BASE_ID:", BASE_ID);
-// console.log("TABLE_NAME:", TABLE_NAME);
-// console.log("DISCOVER_API_KEY:", DISCOVER_API_KEY);
+console.log("AIRTABLE_API_KEY:", AIRTABLE_API_KEY);
+console.log("BASE_ID:", BASE_ID);
+console.log("TABLE_NAME:", TABLE_NAME);
+console.log("DISCOVER_API_KEY:", DISCOVER_API_KEY);
 
 // Login Route
 app.post("/login", async (req, res) => {

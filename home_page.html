@@ -8,11 +8,14 @@
   </head>
   <body>
     <div id="toast" class="toast">
-      It is mandatory to fill one of these fields: domain, exact_match, keyword, nl_match
+      It is mandatory to fill one of these fields: domain, exact_match, keyword,
+      nl_match
     </div>
     <nav id="navbar">
       <img src="Logo.png" alt="Evergrow Advisors" />
-      <button class="logout-button" onclick="logout()" id="logoutButton">Logout</button>
+      <button class="logout-button" onclick="logout()" id="logoutButton">
+        Logout
+      </button>
     </nav>
     <div class="sidebar" id="sidebar1">
       <div class="collapsible">
@@ -22,16 +25,36 @@
         <div class="collapsible-content">
           <form id="searchForm">
             <label for="domain-search">Domain Search</label>
-            <input type="text" id="domain-search" name="domain_search" placeholder="google.com, facebook.com" />
+            <div class="domain-list" id="domainList"></div>
+            <div class="add-domain">
+              <input type="text" id="newDomain" placeholder="Add new domain" />
+              <button id="addBtn" type="button" onclick="addDomain()">
+                Add Domain
+              </button>
+            </div>
 
             <label for="keyword-search">Keyword Search</label>
-            <input type="text" name="keyword_search" id="keyword-search" placeholder="Marketing, Labour" />
+            <input
+              type="text"
+              name="keyword_search"
+              id="keyword-search"
+              placeholder="Marketing, Labour"
+            />
 
             <label for="exact-search">Exact Search</label>
-            <input type="text" id="exact-search" name="exact_search" placeholder="Kleenstar, ChatGPT" />
+            <input
+              type="text"
+              id="exact-search"
+              name="exact_search"
+              placeholder="Kleenstar, ChatGPT"
+            />
 
             <label for="description-search">Description Search</label>
-            <textarea id="description-search" name="description_search" placeholder="Enter text to search..."></textarea>
+            <textarea
+              id="description-search"
+              name="description_search"
+              placeholder="Enter text to search..."
+            ></textarea>
           </form>
         </div>
       </div>
@@ -72,7 +95,14 @@
         <div class="collapsible-content">
           <div class="filter-section">
             <label for="min-score">Minimum <i class="info-icon">i</i></label>
-            <input type="range" id="min-score" name="min-score" min="0" max="800" value="0" />
+            <input
+              type="range"
+              id="min-score"
+              name="min-score"
+              min="0"
+              max="800"
+              value="0"
+            />
             <label class="switch">
               <input type="checkbox" id="filter-by-min-score" />
               <span class="slider round"></span> Filter By min Score
@@ -80,7 +110,14 @@
           </div>
           <div class="filter-section">
             <label for="max-score">Maximum <i class="info-icon">i</i></label>
-            <input type="range" id="max-score" name="max-score" min="0" max="800" value="0" />
+            <input
+              type="range"
+              id="max-score"
+              name="max-score"
+              min="0"
+              max="800"
+              value="0"
+            />
             <label class="switch">
               <input type="checkbox" id="filter-by-max-score" />
               <span class="slider round"></span> Filter By max Score
@@ -111,7 +148,9 @@
         </button>
         <div class="collapsible-content">
           <div class="filter-section">
-            <label for="start-date">Start Date <i class="info-icon">i</i></label>
+            <label for="start-date"
+              >Start Date <i class="info-icon">i</i></label
+            >
             <input type="date" id="start-date" name="start-date" />
           </div>
           <div class="filter-section">
@@ -131,44 +170,136 @@
             </select>
           </div>
           <div class="filter-section">
-            <label for="update-date">Update Date <i class="info-icon">i</i></label>
+            <label for="update-date"
+              >Update Date <i class="info-icon">i</i></label
+            >
             <input type="date" id="update-date" name="update-date" />
           </div>
           <div class="filter-section">
             <label for="social">Social <i class="info-icon">i</i></label>
             <div class="checkbox-group">
-              <label><input type="checkbox" name="social" value="facebook" /> facebook</label>
-              <label><input type="checkbox" name="social" value="instagram" /> instagram</label>
-              <label><input type="checkbox" name="social" value="linkedin" /> linkedin</label>
-              <label><input type="checkbox" name="social" value="pinterest" /> pinterest</label>
-              <label><input type="checkbox" name="social" value="threads" /> threads</label>
-              <label><input type="checkbox" name="social" value="tiktok" /> tiktok</label>
-              <label><input type="checkbox" name="social" value="twitter" /> twitter</label>
+              <label
+                ><input type="checkbox" name="social" value="facebook" />
+                facebook</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="instagram" />
+                instagram</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="linkedin" />
+                linkedin</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="pinterest" />
+                pinterest</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="threads" />
+                threads</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="tiktok" />
+                tiktok</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="twitter" />
+                twitter</label
+              >
               <label><input type="checkbox" name="social" value="x" /> x</label>
-              <label><input type="checkbox" name="social" value="yelp" /> yelp</label>
-              <label><input type="checkbox" name="social" value="youtube" /> youtube</label>
+              <label
+                ><input type="checkbox" name="social" value="yelp" />
+                yelp</label
+              >
+              <label
+                ><input type="checkbox" name="social" value="youtube" />
+                youtube</label
+              >
             </div>
           </div>
           <div class="filter-section">
             <label for="category">Category <i class="info-icon">i</i></label>
             <select id="category" name="category">
               <option value="">Select</option>
-              <option value="ADVERTISING_AND_MARKETING">ADVERTISING_AND_MARKETING</option>
-              <option value="AGRICULTURE_AND_NATURAL_RESOURCES">AGRICULTURE_AND_NATURAL_RESOURCES</option>
+              <option value="ADVERTISING_AND_MARKETING">
+                ADVERTISING_AND_MARKETING
+              </option>
+              <option value="AGRICULTURE_AND_NATURAL_RESOURCES">
+                AGRICULTURE_AND_NATURAL_RESOURCES
+              </option>
               <option value="AUTOMOTIVE">AUTOMOTIVE</option>
-              <option value="BUSINESS_PRODUCTS_AND_SERVICES">BUSINESS_PRODUCTS_AND_SERVICES</option>
-              <option value="COMPUTER_HARDWARE_AND_SEMICONDUCTORS">COMPUTER_HARDWARE_AND_SEMICONDUCTORS</option>
-              <option value="CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES">CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES</option>
+              <option value="BUSINESS_PRODUCTS_AND_SERVICES">
+                BUSINESS_PRODUCTS_AND_SERVICES
+              </option>
+              <option value="COMPUTER_HARDWARE_AND_SEMICONDUCTORS">
+                COMPUTER_HARDWARE_AND_SEMICONDUCTORS
+              </option>
+              <option value="CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES">
+                CONGLOMERATES_SHELL_AND_HOLDING_COMPANIES
+              </option>
               <option value="CONSTRUCTION">CONSTRUCTION</option>
               <option value="CONSUMER_PRODUCTS">CONSUMER_PRODUCTS</option>
               <option value="CONSUMER_SERVICES">CONSUMER_SERVICES</option>
-              <option value="DEFENSE_AND_AEROSPACE">DEFENSE_AND_AEROSPACE</option>
+              <option value="DEFENSE_AND_AEROSPACE">
+                DEFENSE_AND_AEROSPACE
+              </option>
               <option value="EDUCATION">EDUCATION</option>
               <option value="ENERGY">ENERGY</option>
               <option value="ENGINEERING">ENGINEERING</option>
-              <option value="ENVIRONMENTAL_SERVICES">ENVIRONMENTAL_SERVICES</option>
+              <option value="ENVIRONMENTAL_SERVICES">
+                ENVIRONMENTAL_SERVICES
+              </option>
               <option value="FINANCIAL_SERVICES">FINANCIAL_SERVICES</option>
               <option value="FOOD_AND_BEVERAGE">FOOD_AND_BEVERAGE</option>
+              <option value="GAMING">GAMING</option>
+              <option value="GOVERNMENT">GOVERNMENT</option>
+              <option value="HEALTHCARE">HEALTHCARE</option>
+              <option value="HOSPITALITY">HOSPITALITY</option>
+              <option value="INSURANCE">INSURANCE</option>
+              <option value="INTERNET">INTERNET</option>
+              <option value="INVESTMENT">INVESTMENT</option>
+              <option value="LEGAL">LEGAL</option>
+              <option value="LOGISTICS_AND_TRANSPORTATION">
+                LOGISTICS_AND_TRANSPORTATION
+              </option>
+              <option value="MANUFACTURING">MANUFACTURING</option>
+              <option value="MEDIA_AND_ENTERTAINMENT">
+                MEDIA_AND_ENTERTAINMENT
+              </option>
+              <option value="NON_PROFIT_AND_ASSOCIATIONS">
+                NON_PROFIT_AND_ASSOCIATIONS
+              </option>
+              <option value="PHARMACEUTICALS_AND_BIOTECHNOLOGY">
+                PHARMACEUTICALS_AND_BIOTECHNOLOGY
+              </option>
+              <option value="REAL_ESTATE">REAL_ESTATE</option>
+              <option value="RETAIL">RETAIL</option>
+              <option value="SOFTWARE_AND_TECHNOLOGY">
+                SOFTWARE_AND_TECHNOLOGY
+              </option>
+              <option value="TELECOMMUNICATIONS">TELECOMMUNICATIONS</option>
+              <option value="TOURISM_AND_TRAVEL">TOURISM_AND_TRAVEL</option>
+              <option value="UTILITIES">UTILITIES</option>
+              <option value="WHOLESALE">WHOLESALE</option>
+              <option value="ARCHITECTURE">ARCHITECTURE</option>
+              <option value="ARTS_AND_CULTURE">ARTS_AND_CULTURE</option>
+              <option value="BEAUTY_AND_COSMETICS">BEAUTY_AND_COSMETICS</option>
+              <option value="CHEMICALS">CHEMICALS</option>
+              <option value="E_COMMERCE">E_COMMERCE</option>
+              <option value="EVENTS_SERVICES">EVENTS_SERVICES</option>
+              <option value="FASHION">FASHION</option>
+              <option value="FINTECH">FINTECH</option>
+              <option value="FURNITURE">FURNITURE</option>
+              <option value="GRAPHIC_DESIGN">GRAPHIC_DESIGN</option>
+              <option value="INTERIOR_DESIGN">INTERIOR_DESIGN</option>
+              <option value="JEWELRY">JEWELRY</option>
+              <option value="LUXURY_GOODS">LUXURY_GOODS</option>
+              <option value="MUSIC">MUSIC</option>
+              <option value="PERSONAL_CARE">PERSONAL_CARE</option>
+              <option value="PUBLISHING">PUBLISHING</option>
+              <option value="SPORTS">SPORTS</option>
+              <option value="TEXTILES">TEXTILES</option>
+              <option value="VIDEO_PRODUCTION">VIDEO_PRODUCTION</option>
             </select>
           </div>
         </div>
@@ -180,12 +311,25 @@
         </button>
         <div class="collapsible-content">
           <div class="filter-section">
-            <label for="negate-domain">Negate Domain Search <i class="info-icon">i</i></label>
-            <input type="text" id="negate-domain" name="negate-domain" placeholder="google.com,facebook.com" />
+            <label for="negate-domain"
+              >Negate Domain Search <i class="info-icon">i</i></label
+            >
+            <input
+              type="text"
+              id="negate-domain"
+              name="negate-domain"
+              placeholder="google.com,facebook.com"
+            />
           </div>
           <div class="filter-section">
-            <label for="negate-description">Negative Description Search <i class="info-icon">i</i></label>
-            <textarea id="negate-description" name="negate-description" placeholder="Enter text to search..."></textarea>
+            <label for="negate-description"
+              >Negative Description Search <i class="info-icon">i</i></label
+            >
+            <textarea
+              id="negate-description"
+              name="negate-description"
+              placeholder="Enter text to search..."
+            ></textarea>
           </div>
         </div>
       </div>
@@ -200,7 +344,9 @@
     <div id="results">
       <!-- <button class="save-button" onclick="saveSearch()">Save Search</button> -->
       <button class="export-button">Export +</button>
-      <div id="progress-bar" class="hidden">Loading...</div>
+      <div id="progress-bar" class="hidden" style="overflow-x: auto">
+        Loading...
+      </div>
       <table class="results-table">
         <thead>
           <tr>
